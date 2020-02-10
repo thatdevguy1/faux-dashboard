@@ -1,0 +1,41 @@
+.container-height{
+    min-height: 100vh;
+
+    .align-center{
+        text-align:center;
+        width:16rem;
+    }
+}
+
+.login-title{
+    margin-bottom: 5px;
+    margin-left:2px;
+    letter-spacing: 5px;
+    text-align:center;
+}
+
+#sub-title{
+    font-size: .63rem;
+    color:rgb(190, 190, 190);
+}
+
+#standard-basic-label{
+    font-size: .7rem;
+    
+}
+
+.control-div{
+    margin-top: 10px;
+}
+
+button{
+    width: 46%;
+    padding: 10px;
+    border-radius: 3px;
+
+    &#login-btn{
+        background:rgb(34, 34, 54);
+        color:white;
+    }
+
+}
