@@ -1,3 +1,58 @@
 .makeStyles-drawerOpen-7{
     width: auto;
 }
+
+.MuiListItem-root.Mui-selected{
+    border-left:solid 3px #A3A0FC;
+    padding-left: 13px;
+}
+
+main{
+    background: #F2F2F9;
+}
+
+.solid-gauge-wrapper{  
+    height: 480px;
+    .solid-gauge-inner-wrap{
+       width: 100%;
+       height: 100%;
+       background: white;
+       display: flex;
+       flex-direction: column;
+       justify-content: space-between;
+       .solid-gauge-header{
+        padding: 10px;
+        border-bottom: solid 1px lightgray;
+
+          .budget-box{
+              margin-top: 10px;
+              width: 100%;
+              display: flex;
+              justify-content: space-between
+          }
+       }
+       .solid-gauge-info-wrap{
+           padding: 0 20px;
+           display: flex;
+           justify-content: space-between;
+           flex-direction: row;
+       }
+    }
+
+    .solid-gauge-footer{
+        display:flex;
+        justify-content: center;
+        width: 100%;
+        background:white;
+        border-top: solid 1px lightgrey;
+        padding: 10px;
+        
+        span{
+            color: lightblue;
+        }
+    }
+}
+
+text.highcharts-credits{
+    display: none;
+}

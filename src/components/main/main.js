@@ -1,5 +1,10 @@
 /* eslint-disable semi */
 import React from 'react';
+import Dashboard from './dashboard/dashboard';
+import Highcharts from 'highcharts'
+import highchartsMore from 'highcharts/highcharts-more.js'
+import solidGauge from 'highcharts/modules/solid-gauge.js';
+
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -7,7 +12,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -21,9 +25,13 @@ import Badge from '@material-ui/core/Badge';
 import BlurCircularIcon from '@material-ui/icons/BlurCircular';
 import ForumIcon from '@material-ui/icons/Forum';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import Grid from '@material-ui/core/Grid'
 
 import './main.scss';
 import { InputLabel } from '@material-ui/core';
+
+highchartsMore(Highcharts);
+solidGauge(Highcharts);
 
 const drawerWidth = 240;
 
@@ -99,12 +107,175 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const splineOptions = {
+  chart: {
+    type: 'areaspline',
+    spacingBottom: 60,
+    spacingTop: 40
+  },
+  title: {
+    align: 'left',
+    text: 'Views',
+    y: -5,
+    x: 13
+  },
+  legend: {
+    align: 'left',
+    verticalAlign: 'bottom',
+    x: 0,
+    y: 40,
+    floating: true,
+    borderWidth: 0,
+    backgroundColor:
+            Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF'
+  },
+  xAxis: {
+    width: '100%',
+    categories: [
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+      'Sunday'
+    ]
+  },
+  yAxis: {
+    title: {
+      text: ''
+    }
+  },
+  tooltip: {
+    shared: true,
+    valueSuffix: ' units'
+  },
+  credits: {
+    enabled: false
+  },
+  plotOptions: {
+    areaspline: {
+      fillOpacity: 0.5
+    }
+  },
+  //   colors: ['#AEEDFF', '#A3A0FC'],
+  colors: [{
+    linearGradient: { x1: 1, y1: 1, x2: 1, y2: 0 },
+    stops: [
+      [0, 'rgba(255, 255, 255, 0)'],
+      [1, 'rgba(174, 237, 255, .8)']
+    ]
+  }, {
+    linearGradient: { x1: 1, y1: 1, x2: 1, y2: 0 },
+    stops: [
+      [0, 'rgba(255, 255, 255, 0)'],
+      [1, 'rgba(163, 160, 252, .8)']
+    ]
+  }],
+  series: [{
+    name: 'John',
+    data: [12, 6, 3, 8, 4, 10, 12],
+    lineColor: 'rgba(174, 237, 255, 1)',
+    lineWidth: 1,
+    marker: {
+      fillColor: 'white',
+      lineWidth: 1,
+      lineColor: 'rgba(174, 237, 255, 1)'
+    }
+  }, {
+    name: 'Jane',
+    data: [1, 13, 10, 6, 10, 5, 4],
+    lineWidth: 1,
+    lineColor: 'rgba(163, 160, 252, 1)',
+    marker: {
+      fillColor: 'white',
+      lineWidth: 1,
+      lineColor: 'rgba(163, 160, 252, 1)'
+    }
+  }]
+};
+
+const solidGauge1 = {
+
+  chart: {
+    type: 'solidgauge',
+    height: '70%'
+    // events: {
+    //   render: renderIcons
+    // }
+  },
+
+  title: {
+    text: ''
+  },
+  tooltip: {
+    borderWidth: 0,
+    backgroundColor: 'none',
+    shadow: false,
+    style: {
+      fontSize: '13px'
+    },
+    valueSuffix: '%',
+    pointFormat: '{series.name}<br><span style="font-size:2em; color: {black}; font-weight: bold">{point.y}</span>',
+    positioner: function (labelWidth) {
+      return {
+        x: ((this.chart.chartWidth - labelWidth) / 2) + 7,
+        y: (this.chart.plotHeight / 2) - 25
+      };
+    }
+  },
+
+  pane: {
+    startAngle: 0,
+    endAngle: 360,
+    background: [{ // Track for Move
+      outerRadius: '105%',
+      innerRadius: '90%',
+      backgroundColor: 'rgba(163, 160, 252, .5)',
+      borderWidth: 0
+    }]
+  },
+
+  yAxis: {
+    min: 0,
+    max: 100,
+    lineWidth: 0,
+    tickPositions: []
+  },
+
+  plotOptions: {
+    solidgauge: {
+      dataLabels: {
+        enabled: false
+      },
+      linecap: 'round',
+      stickyTracking: false,
+      rounded: true
+    }
+  },
+
+  series: [{
+    name: 'Saved',
+    data: [{
+      color: 'rgba(163, 160, 252, 1)',
+      radius: '105%',
+      innerRadius: '90%',
+      y: 50
+    }]
+  }]
+};
+
 function Main (props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
 
   const handleDrawer = () => {
     setOpen(!open);
+  };
+
+  const handleListItemClick = (event, index) => {
+    setSelectedIndex(index);
   };
 
   return (
@@ -117,13 +288,13 @@ function Main (props) {
         })}
       >
         <Toolbar style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', background: 'white' }}>
-          <Badge badgeContent={0} color="error" style={{ marginLeft: '10px' }}>
+          <Badge badgeContent={0} color="error" style={{ marginLeft: '15px' }}>
             <BlurCircularIcon style={{ color: 'grey' }} />
           </Badge>
-          <Badge badgeContent={0} color="error" style={{ marginLeft: '10px' }}>
+          <Badge badgeContent={0} color="error" style={{ marginLeft: '15px' }}>
             <ForumIcon style={{ color: 'grey' }} />
           </Badge>
-          <Badge badgeContent={1} color="error" style={{ marginLeft: '10px' }}>
+          <Badge badgeContent={1} color="error" style={{ marginLeft: '15px' }}>
             <NotificationsIcon style={{ color: 'grey' }} />
           </Badge>
           <InputLabel style={{ borderLeft: 'solid 1px lightgrey', margin: '0 20px', padding: '5px 0 5px 15px', color: 'grey' }}>David Bland</InputLabel>
@@ -152,39 +323,70 @@ function Main (props) {
         <Divider />
         <List>
           {['Home', 'Dashboard', 'About Me', 'Products', 'Invoices', 'Mail Marketing', 'Chat Room', 'Calendar', 'Help Center', 'Settings'].map((text, index) => (
-            <ListItem button key={text}>
+            <ListItem button key={text}
+              onClick={event => handleListItemClick(event, index)}
+              selected={selectedIndex === index}>
               <ListItemIcon style={{ color: '#A5A4BF' }}>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
           ))}
         </List>
       </Drawer>
-      <main className={classes.content}>
+      <main className={classes.content} style={{ paddingLeft: '50px', paddingRight: '50px', 'box-sizing': 'border-box' }}>
         <div className={classes.toolbar} />
+        <Grid container spacing={10} direction="row" justify="space-between">
+          <Grid item sm={3}>
+            <div style={ { width: '100%', height: '150px', background: 'white' } }>
 
-        <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-          ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum
-          facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit
-          gravida rutrum quisque non tellus. Convallis convallis tellus id interdum velit laoreet id
-          donec ultrices. Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-          adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra nibh cras.
-          Metus vulputate eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo quis
-          imperdiet massa tincidunt. Cras tincidunt lobortis feugiat vivamus at augue. At augue eget
-          arcu dictum varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem
-          donec massa sapien faucibus et molestie ac.
-        </Typography>
-        <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla
-          facilisi etiam dignissim diam. Pulvinar elementum integer enim neque volutpat ac
-          tincidunt. Ornare suspendisse sed nisi lacus sed viverra tellus. Purus sit amet volutpat
-          consequat mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus sed
-          vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in. In
-          hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem et
-          tortor. Habitant morbi tristique senectus et. Adipiscing elit duis tristique sollicitudin
-          nibh sit. Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra maecenas
-          accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
-        </Typography>
+            </div>
+          </Grid>
+          <Grid item sm={3}>
+            <div style={ { width: '100%', height: '150px', background: 'white' } }>
+
+            </div>
+          </Grid>
+          <Grid item sm={3}>
+            <div style={ { width: '100%', height: '150px', background: 'white' } }>
+
+            </div>
+          </Grid>
+        </Grid>
+        <Grid container spacing={10} >
+          <Grid item sm={9}>
+            <Dashboard options = { splineOptions }/>
+          </Grid>
+          <Grid item sm={3} className="solid-gauge-wrapper">
+            <div className = "solid-gauge-inner-wrap">
+
+              <div className = "solid-gauge-header">
+                <span>Money</span>
+                <div className="budget-box">
+                  <span>Total Budget</span><span style={{ color: 'green' }}>$50,000</span>
+                </div>
+              </div>
+
+              <Dashboard options = { solidGauge1 } />
+
+              <div className="solid-gauge-info-wrap">
+                <span className = "total-spent-info">Total Spent</span>
+                <span className = "money-saved-info">Money Saved</span>
+              </div>
+
+              <div className = "solid-gauge-footer">
+                <span>View Full Report</span>
+              </div>
+
+            </div>
+          </Grid>
+        </Grid>
+        <Grid container spacing={10} >
+          <Grid item sm={7}>
+            <Dashboard />
+          </Grid>
+          <Grid item sm={5}>
+            <Dashboard options = { splineOptions } />
+          </Grid>
+        </Grid>
       </main>
     </div>
   );
