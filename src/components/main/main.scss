@@ -14,6 +14,7 @@ main{
 .solid-gauge-wrapper{  
     height: 480px;
     .solid-gauge-inner-wrap{
+       overflow: hidden; 
        width: 100%;
        height: 100%;
        background: white;

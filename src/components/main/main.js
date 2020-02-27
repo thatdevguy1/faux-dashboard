@@ -26,6 +26,13 @@ import BlurCircularIcon from '@material-ui/icons/BlurCircular';
 import ForumIcon from '@material-ui/icons/Forum';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Grid from '@material-ui/core/Grid'
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 
 import './main.scss';
 import { InputLabel } from '@material-ui/core';
@@ -200,9 +207,6 @@ const solidGauge1 = {
   chart: {
     type: 'solidgauge',
     height: '70%'
-    // events: {
-    //   render: renderIcons
-    // }
   },
 
   title: {
@@ -250,7 +254,7 @@ const solidGauge1 = {
       },
       linecap: 'round',
       stickyTracking: false,
-      rounded: true
+      rounded: false
     }
   },
 
@@ -269,6 +273,21 @@ function Main (props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
+
+  function createData (name, calories, fat, carbs, protein) {
+    return { name, calories, fat, carbs, protein };
+  }
+
+  const rows = [
+    createData('Frozenyoghurt', 159, 6.0, 24, 4.0),
+    createData('Icecreamsandwich', 237, 9.0, 37, 4.3),
+    createData('Eclair', 262, 16.0, 24, 6.0),
+    createData('Cupcake', 305, 3.7, 67, 4.3),
+    createData('Cupcake', 305, 3.7, 67, 4.3),
+    createData('Cupcake', 305, 3.7, 67, 4.3),
+    createData('Cupcake', 305, 3.7, 67, 4.3),
+    createData('Gingerbread', 356, 16.0, 49, 3.9)
+  ];
 
   const handleDrawer = () => {
     setOpen(!open);
@@ -332,7 +351,7 @@ function Main (props) {
           ))}
         </List>
       </Drawer>
-      <main className={classes.content} style={{ paddingLeft: '50px', paddingRight: '50px', 'box-sizing': 'border-box' }}>
+      <main className={classes.content} style={{ paddingLeft: '50px', paddingRight: '50px', boxSizing: 'border-box' }}>
         <div className={classes.toolbar} />
         <Grid container spacing={10} direction="row" justify="space-between">
           <Grid item sm={3}>
@@ -380,8 +399,37 @@ function Main (props) {
           </Grid>
         </Grid>
         <Grid container spacing={10} >
-          <Grid item sm={7}>
-            <Dashboard />
+          <Grid item sm={7} >
+            <div style={{ background: 'white', minHeight: '400px', padding: '15px'}}>
+              <span>Referrer</span>
+              <TableContainer component={Paper} style={{ boxShadow: 'none', margin: '15px 0' }}>
+                <Table className={classes.table} size='small' aria-label="simple table">
+                  <TableHead style={{ background: '#F5F6FA' }}>
+                    <TableRow>
+                      <TableCell>Dessert</TableCell>
+                      <TableCell align="right">Calories</TableCell>
+                      <TableCell align="right">Fat&nbsp;(g)</TableCell>
+                      <TableCell align="right">Carbs&nbsp;(g)</TableCell>
+                      <TableCell align="right">Protein&nbsp;(g)</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {rows.map(row => (
+                      <TableRow key={row.name}>
+                        <TableCell component="th" scope="row">
+                          {row.name}
+                        </TableCell>
+                        <TableCell align="right">{row.calories}</TableCell>
+                        <TableCell align="right">{row.fat}</TableCell>
+                        <TableCell align="right">{row.carbs}</TableCell>
+                        <TableCell align="right">{row.protein}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <span>Show More</span>
+            </div>
           </Grid>
           <Grid item sm={5}>
             <Dashboard options = { splineOptions } />
