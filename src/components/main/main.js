@@ -269,6 +269,61 @@ const solidGauge1 = {
   }]
 };
 
+const histogram = {
+  chart: {
+    type: 'column',
+    height: '80%',
+    width: 130
+  },
+  title: {
+    text: ''
+  },
+  subtitle: {
+    text: ''
+  },
+  xAxis: {
+    categories: [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec'
+    ],
+    visible: false,
+    crosshair: true
+  },
+  yAxis: {
+    min: 0,
+    title: {
+      text: ''
+    },
+    visible: false
+  },
+  legend: {
+    enabled: false
+  },
+  plotOptions: {
+    column: {
+      pointPadding: 0,
+      borderWidth: 0,
+      groupPadding: 0,
+      shadow: false
+    }
+  },
+  series: [{
+    name: 'Data',
+    data: [49.9, 71.5, 106.4, 129.2, 144.0, 120, 135, 80, 92, 50, 111, 130]
+
+  }]
+}
+
 function Main (props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -355,18 +410,45 @@ function Main (props) {
         <div className={classes.toolbar} />
         <Grid container spacing={10} direction="row" justify="space-between">
           <Grid item sm={3}>
-            <div style={ { width: '100%', height: '150px', background: 'white' } }>
-
+            <div style={ { width: '100%', height: '150px', background: 'white', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' } }>
+              <div style={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'column', height: '100%', padding: '10px' }}>
+                <span>Total Views</span>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <span>246k</span>
+                  <span>13%</span>
+                </div>
+              </div>
+              <div>
+                <Dashboard options = { histogram } />
+              </div>
             </div>
           </Grid>
           <Grid item sm={3}>
-            <div style={ { width: '100%', height: '150px', background: 'white' } }>
-
+            <div style={ { width: '100%', height: '150px', background: 'white', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' } }>
+              <div style={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'column', height: '100%', padding: '10px' }}>
+                <span>Total Views</span>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <span>246k</span>
+                  <span>13%</span>
+                </div>
+              </div>
+              <div>
+                <Dashboard options = { histogram } />
+              </div>
             </div>
           </Grid>
           <Grid item sm={3}>
-            <div style={ { width: '100%', height: '150px', background: 'white' } }>
-
+            <div style={ { width: '100%', height: '150px', background: 'white', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' } }>
+              <div style={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'column', height: '100%', padding: '10px' }}>
+                <span>Total Views</span>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <span>246k</span>
+                  <span>13%</span>
+                </div>
+              </div>
+              <div>
+                <Dashboard options = { histogram } />
+              </div>
             </div>
           </Grid>
         </Grid>
@@ -400,7 +482,7 @@ function Main (props) {
         </Grid>
         <Grid container spacing={10} >
           <Grid item sm={7} >
-            <div style={{ background: 'white', minHeight: '400px', padding: '15px'}}>
+            <div style={{ background: 'white', minHeight: '400px', padding: '15px' }}>
               <span>Referrer</span>
               <TableContainer component={Paper} style={{ boxShadow: 'none', margin: '15px 0' }}>
                 <Table className={classes.table} size='small' aria-label="simple table">
