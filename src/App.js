@@ -5,8 +5,8 @@ import Main from './components/main/main'
 
 function App () {
   return (
-     <Main />
-    //<Login />
+    <Main />
+    // <Login />
   );
 }
 
