@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable semi */
 import React, { useEffect, useState } from 'react';
 import highchartsMore from 'highcharts/highcharts-more.js'
@@ -46,6 +47,8 @@ const Dashboard = (props) => {
   const [tableBookmark, setTableBookmark] = useState(8);
   const [rows, setRows] = useState([]);
 
+  /* Get BTC data and update the BTC state with the information as well as call the expandTable 
+     function with the data as an argument */
   useEffect(() => {
     (async () => {
       const data = await (await fetch('https://api.coinranking.com/v1/public/coin/1/history/24h')).json();
@@ -54,6 +57,8 @@ const Dashboard = (props) => {
     })();
   }, []);
 
+  /* Takes array of BTC data and creates rows for table based on the amount of rows (tableBookmark) 
+     the users wants to view which gets saved in the rows state */
   const expandTable = (data) => {
     console.log(data);
     const newRows = []
@@ -63,8 +68,9 @@ const Dashboard = (props) => {
     };
     setRows(newRows);
     console.log(newRows);
-  }
+  };
 
+  // Highchars / highcharts-react specific options and styles
   const classes = useStyles();
   highchartsMore(Highcharts);
   solidGauge(Highcharts);
@@ -276,28 +282,14 @@ const Dashboard = (props) => {
       data: [49.9, 71.5, 106.4, 129.2, 144.0, 120, 135, 80, 92, 50, 111, 130]
 
     }]
-  }
+  };
 
-  function createData (tradeDate, price, fat, carbs, protein) {
-    return { tradeDate, price, fat, carbs, protein };
-  }
-
-  // createData('Frozenyoghurt', 159, 6.0, 24, 4.0),
-  // createData('Icecreamsandwich', 237, 9.0, 37, 4.3),
-  // createData('Eclair', 262, 16.0, 24, 6.0),
-  // createData('Cupcake', 305, 3.7, 67, 4.3),
-  // createData('Cupcake1', 305, 3.7, 67, 4.3),
-  // createData('Cupcake2', 305, 3.7, 67, 4.3),
-  // createData('Cupcake3', 305, 3.7, 67, 4.3),
-  // createData('Gingerbread', 356, 16.0, 49, 3.9)
-  ;
+  // Creating objects to be used to dynamicaly populate our table rows. Initially saved to rows state
+  function createData (tradeDate, price) {
+    return { tradeDate, price };
+  };
 
   return (
-    // <HighchartsReact
-    //   highcharts={Highcharts}
-    //   // eslint-disable-next-line react/prop-types
-    //   options={props.options || defaultOptions}
-    // />
     <>
       <Grid container spacing={10} direction="row" justify="space-between">
         <Grid item sm={3}>
