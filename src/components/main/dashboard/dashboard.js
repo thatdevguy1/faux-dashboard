@@ -47,17 +47,18 @@ const Dashboard = (props) => {
   const [tableBookmark, setTableBookmark] = useState(8);
   const [rows, setRows] = useState([]);
 
-  /* Get BTC data and update the BTC state with the information as well as call the expandTable 
+  /* Get BTC data and update the BTC state with the information as well as call the expandTable
      function with the data as an argument */
   useEffect(() => {
     (async () => {
       const data = await (await fetch('https://api.coinranking.com/v1/public/coin/1/history/24h')).json();
       setBtc(data.data.history);
       expandTable(data.data.history);
+      generateAverage(data.data.history);
     })();
   }, []);
 
-  /* Takes array of BTC data and creates rows for table based on the amount of rows (tableBookmark) 
+  /* Takes array of BTC data and creates rows for table based on the amount of rows (tableBookmark)
      the users wants to view which gets saved in the rows state */
   const expandTable = (data) => {
     console.log(data);
@@ -67,7 +68,27 @@ const Dashboard = (props) => {
       newRows.push(createData(date.toLocaleString(), Number(data[i].price).toFixed(2), 10, 10, 10));
     };
     setRows(newRows);
-    console.log(newRows);
+    console.log(date);
+  };
+
+  // Creating objects to be used to dynamicaly populate our table rows. Initially saved to rows state
+  const createData = (tradeDate, price) => {
+    return { tradeDate, price };
+  };
+
+  // ###################### Only shows Tuesday and Wednesday, consider something else for graphs ###################
+  // Generates price average for each day based on the total amount of days and saves it to the average state
+  const generateAverage = (data) => {
+    // elements 0 - 6 represent the days of the week Sunday - Saturday
+    const averagePerDay = [[], [], [], [], [], [], []];
+
+    data.forEach((data) => {
+      const day = new Date(data.timestamp);
+      averagePerDay[day.getDay()].push(data.price);
+      console.log(day + ' ' + day.getDay());
+    });
+
+    console.log(averagePerDay);
   };
 
   // Highchars / highcharts-react specific options and styles
@@ -282,11 +303,6 @@ const Dashboard = (props) => {
       data: [49.9, 71.5, 106.4, 129.2, 144.0, 120, 135, 80, 92, 50, 111, 130]
 
     }]
-  };
-
-  // Creating objects to be used to dynamicaly populate our table rows. Initially saved to rows state
-  function createData (tradeDate, price) {
-    return { tradeDate, price };
   };
 
   return (
