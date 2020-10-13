@@ -28,14 +28,19 @@
     margin-top: 10px;
 }
 
-button{
+button, a{
     width: 46%;
     padding: 10px;
     border-radius: 3px;
+    cursor: pointer;
 
     &#login-btn{
+        width: 100%;
         background:rgb(34, 34, 54);
         color:white;
     }
+}
 
+a{
+    padding: 0;
 }

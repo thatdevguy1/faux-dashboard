@@ -61,14 +61,13 @@ const Dashboard = (props) => {
   /* Takes array of BTC data and creates rows for table based on the amount of rows (tableBookmark)
      the users wants to view which gets saved in the rows state */
   const expandTable = (data) => {
-    console.log(data);
     const newRows = []
     for (var i = 0; i < tableBookmark; i++) {
       var date = new Date(data[i].timestamp);
       newRows.push(createData(date.toLocaleString(), Number(data[i].price).toFixed(2), 10, 10, 10));
     };
     setRows(newRows);
-    console.log(date);
+    // use this to check date generated on line 66 --> console.log(date);
   };
 
   // Creating objects to be used to dynamicaly populate our table rows. Initially saved to rows state
@@ -85,10 +84,7 @@ const Dashboard = (props) => {
     data.forEach((data) => {
       const day = new Date(data.timestamp);
       averagePerDay[day.getDay()].push(data.price);
-      console.log(day + ' ' + day.getDay());
     });
-
-    console.log(averagePerDay);
   };
 
   // Highchars / highcharts-react specific options and styles

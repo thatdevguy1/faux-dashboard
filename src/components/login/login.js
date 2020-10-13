@@ -1,6 +1,7 @@
 /* eslint-disable semi */
 /* eslint-disable no-tabs */
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import clsx from 'clsx';
 import { Grid, TextField, Checkbox, makeStyles } from '@material-ui/core';
 
@@ -83,9 +84,11 @@ function Login (props) {
               </Grid>
             </Grid>
             <Grid container style={{ 'margin-top': '50px' }} justify="space-between">
-              <button id="login-btn">
-								Login
-              </button>
+              <NavLink to="/dashboard">
+                <button id="login-btn">
+								  Login
+                </button>
+              </NavLink>
               <button id="signup-btn">
 									Sign Up
               </button>
