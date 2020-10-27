@@ -1,22 +1,27 @@
 /* eslint-disable semi */
-import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Login from './components/login/login'
-import Main from './components/main/main'
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  HashRouter,
+} from "react-router-dom";
+import Login from "./components/login/login";
+import Main from "./components/main/main";
 //import { Router } from '@material-ui/icons';
 
-function App () {
+function App() {
   return (
-    <Router>
+    <HashRouter basename="/">
       <Switch>
-        <Route exact path ="/">
+        <Route exact path="/">
           <Login />
         </Route>
         <Route path="/dashboard">
           <Main />
         </Route>
       </Switch>
-    </Router>
+    </HashRouter>
   );
 }
 
